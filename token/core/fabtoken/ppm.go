@@ -46,10 +46,6 @@ func (v *PublicParamsManager) NewCertifierKeyPair() ([]byte, []byte, error) {
 // ForceFetch sets the public parameters of the PublicParamsManager to the public parameters
 // associated with its PublicParamsLoader
 func (v *PublicParamsManager) ForceFetch() error {
-	if v.publicParamsLoader == nil {
-		return errors.New("public parameters loader not set")
-	}
-
 	pp, err := v.publicParamsLoader.ForceFetch()
 	if err != nil {
 		return errors.WithMessagef(err, "failed force fetching public parameters")
@@ -72,9 +68,6 @@ func (v *PublicParamsManager) Issuers() [][]byte {
 // PublicParams returns the fabtoken public parameters
 func (v *PublicParamsManager) PublicParams() *PublicParams {
 	if v.pp == nil {
-		if v.publicParamsLoader == nil {
-			panic("public parameters loaded not set")
-		}
 		var err error
 		v.pp, err = v.publicParamsLoader.Load()
 		if err != nil {
